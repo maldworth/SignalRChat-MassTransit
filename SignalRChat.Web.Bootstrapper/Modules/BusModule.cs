@@ -17,13 +17,7 @@
         protected override void Load(ContainerBuilder builder)
         {
             // Registers all consumers with our container
-            builder.RegisterAssemblyTypes(_assembliesToScan)
-                .Where(t =>
-                {
-                    var a = typeof(IConsumer).IsAssignableFrom(t);
-                    return a;
-                })
-                .AsSelf();
+            builder.RegisterConsumers(_assembliesToScan);
 
             // Creates our bus from the factory and registers it as a singleton against two interfaces
             builder.Register(c => Bus.Factory.CreateUsingRabbitMq(sbc =>
