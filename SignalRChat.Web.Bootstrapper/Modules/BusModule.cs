@@ -1,14 +1,15 @@
-﻿using Autofac;
-using MassTransit;
-using System;
-
-namespace SignalRChat.Web.Bootstrapper.Modules
+﻿namespace SignalRChat.Web.Bootstrapper.Modules
 {
-    public class MassTransitModule : Module
+    using Autofac;
+    using MassTransit;
+    using System;
+    using System.Configuration;
+
+    public class BusModule : Module
     {
         private readonly System.Reflection.Assembly[] _assembliesToScan;
 
-        public MassTransitModule(params System.Reflection.Assembly[] assembliesToScan)
+        public BusModule(params System.Reflection.Assembly[] assembliesToScan)
         {
             _assembliesToScan = assembliesToScan;
         }
@@ -27,13 +28,13 @@ namespace SignalRChat.Web.Bootstrapper.Modules
             // Creates our bus from the factory and registers it as a singleton against two interfaces
             builder.Register(c => Bus.Factory.CreateUsingRabbitMq(sbc =>
             {
-                var host = sbc.Host(new Uri("rabbitmq://localhost/signalrchat"), h =>
+                var host = sbc.Host(new Uri(ConfigurationManager.AppSettings["RabbitMQHost"]), h =>
                 {
-                    h.Username("signalrchat");
-                    h.Password("signal");
+                    h.Username(ConfigurationManager.AppSettings["RabbitMQUsername"]);
+                    h.Password(ConfigurationManager.AppSettings["RabbitMQPassword"]);
                 });
 
-                sbc.ReceiveEndpoint(host, "sendchat_queue", ep => ep.LoadFrom(c.Resolve<ILifetimeScope>()));
+                sbc.ReceiveEndpoint(host, ConfigurationManager.AppSettings["SendQueueName"], ep => ep.LoadFrom(c.Resolve<ILifetimeScope>()));
             }))
                 .As<IBusControl>()
                 .As<IBus>()

@@ -1,8 +1,8 @@
-﻿using Autofac;
-using Autofac.Integration.SignalR;
-
-namespace SignalRChat.Web.Bootstrapper.Modules
+﻿namespace SignalRChat.Web.Bootstrapper.Modules
 {
+    using Autofac;
+    using Autofac.Integration.SignalR;
+
     public class HubModule : Module
     {
         private readonly System.Reflection.Assembly[] _assembliesToScan;

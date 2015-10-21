@@ -1,13 +1,13 @@
-﻿using Autofac;
-using Autofac.Integration.SignalR;
-using MassTransit;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
-using Microsoft.AspNet.SignalR.Infrastructure;
-using Owin;
-
-namespace SignalRChat.Web.Bootstrapper
+﻿namespace SignalRChat.Web.Bootstrapper
 {
+    using Autofac;
+    using Autofac.Integration.SignalR;
+    using MassTransit;
+    using Microsoft.AspNet.SignalR;
+    using Microsoft.AspNet.SignalR.Hubs;
+    using Microsoft.AspNet.SignalR.Infrastructure;
+    using Owin;
+
     public class Startup
     {
         public void Configuration(IAppBuilder app)
